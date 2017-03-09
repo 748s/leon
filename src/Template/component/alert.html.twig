@@ -1,0 +1,6 @@
+{% if alert %}
+  <div class="alert alert-{{ alert.type }}{% if alert.dismissable %} alert-dismissable{% endif %}">
+    {{ alert.message|raw }}
+    {% if alert.dismissable %}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>{% endif %}
+  </div>
+{% endif %}

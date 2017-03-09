@@ -1,0 +1,4 @@
+{% extends "@Leon/form/element/element.html.twig" %}
+{% block content %}
+    <input type="text" class="form-control" name="{{ element.name }}" value="{{ form.entity[element.name] }}" {% if element.maxLength %}maxlength="{{ element.maxLength }}"{% endif %} {% if element.placeholder and element.showPlaceholder %}placeholder="{{ element.placeholder }}" {% endif %} {% if element.minLength %}required {% endif %}/>
+{% endblock %}

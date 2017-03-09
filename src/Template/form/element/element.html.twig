@@ -1,0 +1,10 @@
+<div class="form-group{% if form.errors[element.name] %} has-error{% endif %}">
+    {% block label %}
+        {% if element.label and element.showLabel %}
+            <label class="control-label{% if element.isRequired or element.numRequired or element.minLength %} required {% endif %}" for="{{ element.name }}">{{ element.label }}</label>
+        {% endif %}
+    {% endblock %}
+    {% if element.type in ['checkbox', 'checkboxGroup', 'checkboxArrayGroup', 'radio'] %}<br />{% endif %}
+    {% block content %}
+    {% endblock %}
+</div>

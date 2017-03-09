@@ -1,0 +1,10 @@
+{% extends "@Leon/form/element/element.html.twig" %}
+{% block content %}
+    <div class="btn-group-vertical" data-toggle="buttons">
+        {% for choice in element.choices %}
+            <label class="btn btn-default textLeft{% if form.entity[element.name] == choice.value %} active{% endif %}">
+                <input type="radio" name="{{ element.name }}" value="{{ choice.value }}" {% if form.entity[element.name] == choice.value %}checked {% endif %} required />{{ choice.label }}
+            </label>
+        {% endfor %}
+    </div>
+{% endblock %}

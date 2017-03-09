@@ -1,0 +1,16 @@
+# environment should be 'development', 'staging', or 'production'
+environment: development
+timeZone: America/New_York
+# protocol should be 'http' or 'https'
+protocol: http
+domain: example.com
+websiteTitle: Leon
+database:
+    type: mysql
+    host: 127.0.0.1
+    database: databaseName
+    user: databaseUser
+    password: databasePass
+# table names for the request and error logs
+requestLog: request
+errorLog: error

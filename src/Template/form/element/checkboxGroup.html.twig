@@ -1,0 +1,10 @@
+{% extends "@Leon/form/element/element.html.twig" %}
+{% block content %}
+    <div class="btn-group-vertical" data-toggle="buttons">
+        {% for checkbox in element.checkboxes %}
+            <label class="btn btn-default textLeft{% if form.entity[checkbox.name] == 1 %} active{% endif %}">
+                <input type="checkbox" autocomplete="off" name="{{ checkbox.name }}" value="1" {% if form.entity[checkbox.name] == 1 %}checked {% endif %} />{{ checkbox.label }}
+            </label>
+        {% endfor %}
+    </div>
+{% endblock %}

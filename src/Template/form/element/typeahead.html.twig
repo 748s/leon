@@ -1,0 +1,45 @@
+{% extends "@Leon/form/element/element.html.twig" %}
+{% block content %}
+    <input type="text" class="form-control" name="{{ element.name }}Typeahead" value="" {% if element.placeholder and element.showPlaceholder %}placeholder="{{ element.placeholder }}" {% endif %} {% if element.isRequired %}required {% endif %}/>
+    <input type="hidden" name="{{ element.name }}" value="{{ form.entity[element.name] }}" >
+    <script>
+        var {{ element.name }}Suggestions = [{% for suggestion in element.suggestions %}
+            {value:'{{ suggestion.label }}', data:'{{ suggestion.value }}'}{% if not loop.last %},{% endif %}
+        {% endfor %}];
+        $("input[name='{{ element.name }}Typeahead']").autocomplete({
+            lookup: {{ element.name }}Suggestions,
+            autoSelectFirst: true,
+            onSelect: function(suggestion) {
+                $("input[name='{{ element.name }}']").val(suggestion.data);
+            }
+        });
+        $(document).ready(function() {
+            $.each({{ element.name }}Suggestions, function() {
+                if ("{{ form.entity[element.name] }}" == this.data) {
+                    $("input[name='{{ element.name }}Typeahead']").val(this.value);
+                    return;
+                }
+            });
+        });
+        $("input[name='{{ element.name }}Typeahead']").blur(function() {
+            setTimeout(function() {
+                var data = findSuggestionData({{ element.name }}Suggestions, $("input[name='{{ element.name }}Typeahead']").val());
+                if (data) {
+                    $("input[name='{{ element.name }}']").val(data);
+                    $("input[name='{{ element.name }}']").closest('.form-group').removeClass("has-error");
+                } else {
+                    $("input[name='{{ element.name }}Typeahead']").closest(".form-group").addClass('has-error');
+                }
+            }, 50);
+        });
+        function findSuggestionData(suggestions, value) {
+            var data = false;
+            $.each(suggestions, function() {
+                if (this.value == value) {
+                    data = this.data;
+                }
+            });
+            return data;
+        }
+    </script>
+{% endblock %}

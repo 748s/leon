@@ -1,0 +1,18 @@
+{% extends "@Leon/form/element/element.html.twig" %}
+{% block label %}
+    {% if element.showLabel %}<label class="control-label{% if element.isRequired or element.numRequired or element.minLength %} required {% endif %}" for="{{ element.name }}">{{ element.label }}</label>{% endif %}<span class="selectedFileName"></span>
+    <br />
+{% endblock %}
+{% block content %}
+    <label class="btn btn-default btnFile">
+        <span class="selectFileBtn">Select</span><span class="changeFileBtn">Change</span><input type="file" name="{{ element.name }}" style="display: none;">
+    </label>
+    <script>
+            var fileInput = $("input[name='{{ element.name }}']");
+        $(fileInput).change(function() {
+            $(fileInput).closest(".form-group").find(".selectedFileName").html(": " + ($(fileInput).val()).split("\\").pop());
+            $(fileInput).closest(".form-group").find(".changeFileBtn").show();
+            $(fileInput).closest(".form-group").find(".selectFileBtn").hide();
+        });
+    </script>
+{% endblock %}
