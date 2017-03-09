@@ -16,7 +16,7 @@ class View
     {
         global $config;
         $TwigLoader = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT'] . '/App/Template');
-        $TwigLoader->addPath('./Leon/src/Template', 'Leon');
+        $TwigLoader->addPath('./vendor/thehiredgun/leon/src/Template', 'Leon');
         if ('production' !== $config->getEnvironment()) {
             $this->twig = new Twig_Environment($TwigLoader, ['debug' => true]);
         } else {
