@@ -1,0 +1,19 @@
+{
+    "name": "thehiredgun/leon",
+    "authors": [
+        {
+            "name": "Nick Wakeman",
+            "email": "nick.wakeman@gmail.com",
+            "role": "Architect, Developer"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Leon\\" : "src"
+        }
+    },
+    "require": {
+        "php" : ">=7.0",
+        "twig/twig": "^2.0"
+    }
+}

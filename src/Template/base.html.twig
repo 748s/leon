@@ -1,31 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-        <title>{{ websiteTitle }}</title>
+        {% block head %}
+            <meta charset="utf-8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+            <title>{{ websiteTitle }}</title>
 
-        {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.min.css">
-            <link rel="stylesheet" type="text/css" href="/assets/font-awesome/css/font-awesome.min.css">
-            <link rel="stylesheet" type="text/css" href="/assets/datatables/css/jquery.dataTables.min.css">
-            <link rel="stylesheet" type="text/css" href="/assets/datatables/css/responsive.dataTables.min.css">
-            <link rel="stylesheet" type="text/css" href="/assets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
-            <link rel="stylesheet" type="text/css" href="/assets/bootstrap3-editable/css/bootstrap-editable.css">
-            <link rel="stylesheet" type="text/css" href="/assets/bootstrap-select/dist/css/bootstrap-select.min.css">
-            <link rel="stylesheet" type="text/css" href="/assets/thehiredgun.css">
-        {% endblock %}
-        {% block javascript %}
+            <!-- jQuery -->
             <script type="text/javascript" src="/assets/jquery/jquery.min.js"></script>
+
+            <!-- bootstrap -->
+            <link rel="stylesheet" type="text/css" href="/assets/bootstrap/css/bootstrap.min.css">
             <script type="text/javascript" src="/assets/bootstrap/js/bootstrap.min.js"></script>
-            <script type="text/javascript" src="/assets/jquery.autocomplete.min.js"></script>
-            <script type="text/javascript" src="/assets/datatables/js/jquery.dataTables.min.js"></script>
-            <script type="text/javascript" src="/assets/datatables/js/dataTables.responsive.js"></script>
+
+            <!-- font-awesome -->
+            <link rel="stylesheet" type="text/css" href="/assets/font-awesome/css/font-awesome.min.css">
+
+            <!-- datetimepicker -->
+            <link rel="stylesheet" type="text/css" href="/assets/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
             <script type="text/javascript" src="/assets/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+
+            <!-- dataTables -->
+            <link rel="stylesheet" type="text/css" href="/assets/dataTables/media/css/dataTables.bootstrap.min.css">
+            <link rel="stylesheet" type="text/css" href="/assets/dataTables/extensions/Responsive/css/responsive.bootstrap.min.css">
+            <script type="text/javascript" src="/assets/dataTables/media/js/dataTables.bootstrap.min.js"></script>
+            <script type="text/javascript" src="/assets/dataTables/extensions/Responsive/js/responsive.bootstrap.min.js"></script>
+
+            <!-- bootstrap select -->
+            <link rel="stylesheet" type="text/css" href="/assets/bootstrap-select/css/bootstrap-select.min.css">
+            <script type="text/javascript" src="/assets/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+            <!-- bootstrap x-editable -->
+            <link rel="stylesheet" type="text/css" href="/assets/bootstrap3-editable/css/bootstrap-editable.css">
             <script type="text/javascript" src="/assets/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
-            <script type="text/javascript" src="/assets/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
-            <script type="text/javascript" src="/assets/thehiredgun.js"></script>
+
+            <!-- jquery autocomplete -->
+            <script type="text/javascript" src="/assets/jquery-autocomplete/jquery.autocomplete.min.js"></script>
+
+            <!-- the hired gun -->
+            <link rel="stylesheet" type="text/css" href="/assets/thehiredgun/css/thehiredgun.css">
+            <script type="text/javascript" src="/assets/thehiredgun/js/thehiredgun.js"></script>
+
+            <!-- custom -->
+            <link rel="stylesheet" type="text/css" href="/assets/custom.css">
+            <script type="text/javascript" src="/assets/custom.js"></script>
         {% endblock %}
     </head>
     <body>
@@ -43,6 +62,11 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-right">
+                            {% if session.isLoggedIn %}
+                                <li><a href="/logout">Logout</a></li>
+                            {% else %}
+                                <li><a href="/login">Login</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
