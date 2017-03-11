@@ -10,17 +10,11 @@ class Form
 {
     protected $isAjax = false;
     protected $title;
-    protected $elements = [];
-    protected $entity = [];
+    protected $data = [];
     protected $errors = [];
-    protected $validator;
+    protected $elements = [];
     protected $alert;
     protected $multipartFormData = false;
-
-    public function __construct()
-    {
-
-    }
 
     public function setTitle($title)
     {
@@ -61,21 +55,22 @@ class Form
         return $this->elements;
     }
 
-    public function setEntity($entity)
+    public function setData($data)
     {
-        $this->entity = $entity;
+        $this->data = $data;
 
         return $this;
     }
 
-    public function getEntity()
+    public function getData()
     {
-        return $this->entity;
+        return $this->data;
     }
 
     public function setErrors($errors)
     {
         $this->errors = $errors;
+        $this->setAlert($errors);
 
         return $this;
     }
@@ -88,25 +83,16 @@ class Form
     public function validate()
     {
         if ('POST' === $_SERVER['REQUEST_METHOD']) {
-            $this->validator = new Validator();
+            $validator = new Validator();
             foreach ($this->elements as $element) {
                 if (method_exists($element, 'validate')) {
-                    $element->validate($this->validator);
+                    $element->validate($validator);
                 }
             }
-            $this->entity = $this->validator->getData();
-            if ($this->errors = $this->validator->getErrors()) {
-                $this->setAlert($this->errors);
-            }
-            return true;
+            return $validator;
         } else {
             return false;
         }
-    }
-
-    public function getValidator()
-    {
-        return $this->validator;
     }
 
     public function setAlert($errors)

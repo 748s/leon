@@ -1,8 +1,8 @@
 {% extends "@Leon/form/element/element.html.twig" %}
 {% block content %}
     <div class="btn-group" data-toggle="buttons">
-        <label class="btn btn-default textLeft{% if form.entity[element.name] == 1 or (not entity[primaryKey] and element.default) %} active{% endif %}">
-            <input type="checkbox" autocomplete="off" name="{{ element.name }}" value="1" {% if form.entity[element.name] == 1 or (not entity[primaryKey] and element.default) %}checked {% endif %}{% if element.isRequired %} required{% endif %} />{{ element.label }}
+        <label class="btn btn-default textLeft{% if form.data[element.name] == 1 or (not entity[primaryKey] and element.default) %} active{% endif %}">
+            <input type="checkbox" autocomplete="off" name="{{ element.name }}" value="1" {% if form.data[element.name] == 1 or (not entity[primaryKey] and element.default) %}checked {% endif %}{% if element.isRequired %} required{% endif %} />{{ element.label }}
         </label>
     </div>
 {% endblock %}

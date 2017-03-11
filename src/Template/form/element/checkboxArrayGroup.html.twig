@@ -2,8 +2,8 @@
 {% block content %}
     <div class="btn-group-vertical" data-toggle="buttons">
         {% for checkbox in element.checkboxes %}
-            <label class="btn btn-default textLeft{% if checkbox.value in form.entity[element.name] %} active{% endif %}">
-                <input type="checkbox" autocomplete="off" name="{{ element.name }}[]" value="{{ checkbox.value }}" {% if checkbox.value in form.entity[element.name] %}checked {% endif %} />{{ checkbox.label }}
+            <label class="btn btn-default textLeft{% if checkbox.value in form.data[element.name] %} active{% endif %}">
+                <input type="checkbox" autocomplete="off" name="{{ element.name }}[]" value="{{ checkbox.value }}" {% if checkbox.value in form.data[element.name] %}checked {% endif %} />{{ checkbox.label }}
             </label>
         {% endfor %}
     </div>

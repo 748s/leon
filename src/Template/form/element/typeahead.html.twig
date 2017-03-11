@@ -1,7 +1,7 @@
 {% extends "@Leon/form/element/element.html.twig" %}
 {% block content %}
     <input type="text" class="form-control" name="{{ element.name }}Typeahead" value="" {% if element.placeholder and element.showPlaceholder %}placeholder="{{ element.placeholder }}" {% endif %} {% if element.isRequired %}required {% endif %}/>
-    <input type="hidden" name="{{ element.name }}" value="{{ form.entity[element.name] }}" >
+    <input type="hidden" name="{{ element.name }}" value="{{ form.data[element.name] }}" >
     <script>
         var {{ element.name }}Suggestions = [{% for suggestion in element.suggestions %}
             {value:'{{ suggestion.label }}', data:'{{ suggestion.value }}'}{% if not loop.last %},{% endif %}
@@ -15,7 +15,7 @@
         });
         $(document).ready(function() {
             $.each({{ element.name }}Suggestions, function() {
-                if ("{{ form.entity[element.name] }}" == this.data) {
+                if ("{{ form.data[element.name] }}" == this.data) {
                     $("input[name='{{ element.name }}Typeahead']").val(this.value);
                     return;
                 }

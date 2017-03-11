@@ -18,7 +18,7 @@ abstract class StringElement extends Element
     protected $maxLength;
     protected $stripTags = true;
     protected $errorMessage;
-    
+
     public function __construct($name, $label = '')
     {
         $this->name = $name;
@@ -30,48 +30,48 @@ abstract class StringElement extends Element
             $this->placeholder = $label;
         }
     }
-        
+
     public function getName()
     {
         return $this->name;
     }
-    
+
     public function getLabel()
     {
         return $this->label;
     }
-    
+
     public function setShowLabel(bool $showLabel)
     {
         $this->showLabel = $showLabel;
-        
+
         return $this;
     }
-    
+
     public function getShowLabel()
     {
         return $this->showLabel;
     }
-    
+
     public function setPlaceholder($placeholder)
     {
         $this->placeholder = $placeholder;
-        
+
         return $this;
     }
-    
+
     public function getPlaceholder()
     {
         return $this->placeholder;
     }
-    
+
     public function setShowPlaceholder(bool $showPlaceholder)
     {
         $this->showPlaceholder = $showPlaceholder;
-        
+
         return $this;
     }
-    
+
     public function getShowPlaceholder()
     {
         return $this->showPlaceholder;
@@ -80,31 +80,31 @@ abstract class StringElement extends Element
     public function setMinLength(int $minLength)
     {
         $this->minLength = $minLength;
-        
+
         return $this;
     }
-    
+
     public function getMinLength()
     {
         return $this->minLength;
     }
-    
+
     public function setMaxLength(int $maxLength)
     {
         $this->maxLength = $maxLength;
-        
+
         return $this;
     }
-    
+
     public function getMaxLength()
     {
         return $this->maxLength;
     }
-    
+
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
-        
+
         return $this;
     }
 
@@ -112,7 +112,7 @@ abstract class StringElement extends Element
     {
         return $this->errorMessage;
     }
-    
+
     public function setStripTags($stripTags)
     {
         switch (getType($stripTags)) {
@@ -124,10 +124,10 @@ abstract class StringElement extends Element
                 Throw new Exception('Invalid argument for setStripTags');
             break;
         }
-        
+
         return $this;
     }
-    
+
     public function validate(Validator $validator)
     {
         $error = null;
@@ -141,7 +141,7 @@ abstract class StringElement extends Element
         if ($this->minLength) {
             if (mb_strlen($string) < $this->minLength) {
                 if (1 === $this->minLength) {
-                    $error = "$this->label is required";            
+                    $error = "$this->label is required";
                 } else {
                     $error = "$this->label must be at least $this->minLength characters long";
                 }

@@ -3,7 +3,7 @@
     <select name="{{ element.name }}" class="form-control" {% if element.isRequired %}required {% endif %}>
         <option></option>
         {% for option in element.options %}
-            <option value="{{ option.value }}"{% if form.entity[element.name] == option.value or (not element[primaryKey] and option.value == element.default) %} selected="selected"{% endif %}>{{ option.label }}</option>
+            <option value="{{ option.value }}"{% if form.data[element.name] == option.value or (not element[primaryKey] and option.value == element.default) %} selected="selected"{% endif %}>{{ option.label }}</option>
         {% endfor %}
     </select>
 {% endblock %}

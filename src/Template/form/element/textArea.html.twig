@@ -1,4 +1,4 @@
 {% extends "@Leon/form/element/element.html.twig" %}
 {% block content %}
-    <textarea name="{{ element.name }}" class="form-control" {% if element.maxLength %}maxlength="{{ element.maxLength }}" {% endif %}{% if element.numRows %}rows="{{ element.numRows }}" {% endif %}{% if element.placeholder %}placeholder="{{ element.placeholder }}" {% endif %}{% if element.minLength %}required {% endif %}{% if element.resize is defined and element.resize == false %} style="resize: none;"{% endif %}>{{ form.entity[element.name] }}</textarea>
+    <textarea name="{{ element.name }}" class="form-control" {% if element.maxLength %}maxlength="{{ element.maxLength }}" {% endif %}{% if element.numRows %}rows="{{ element.numRows }}" {% endif %}{% if element.placeholder %}placeholder="{{ element.placeholder }}" {% endif %}{% if element.minLength %}required {% endif %}{% if element.resize is defined and element.resize == false %} style="resize: none;"{% endif %}>{{ form.data[element.name] }}</textarea>
 {% endblock %}
