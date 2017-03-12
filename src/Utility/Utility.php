@@ -14,5 +14,4 @@ class Utility
             PREG_SPLIT_DELIM_CAPTURE    // don't strip anything from output array
         )));
     }
-
 }

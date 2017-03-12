@@ -15,13 +15,23 @@ abstract class File extends Element
     protected $name;
     protected $label;
     protected $showLabel = true;
+    protected $fileTypeNameList = [];
+    protected $showFileTypeNameList = false;
+    protected $fileTypeExtensionList = [];
+    protected $showFileTypeExtensionList = true;
     protected $maxFileSize;
+    protected $showMaxFileSize = true;
 
     public function __construct($name)
     {
         $this->name = $name;
         $this->label = Utility::getLabelFromName($name);
         $this->setMaxFileSize(ini_get('upload_max_filesize'));
+        foreach ($this->fileTypes as $typeName) {
+            $fileType = new $typeName();
+            $this->fileTypeNameList[] = $fileType->getName();
+            $this->fileTypeExtensionList[] = $fileType->getExtension();
+        }
     }
 
     public function getName()
@@ -103,14 +113,33 @@ abstract class File extends Element
             return;
         }
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $fileType = finfo_file($finfo, $_FILES[$this->name]['tmp_name']);
-        if (!in_array($fileType, $this->fileTypes)) {
-            $validator->setError($this->name, "$this->label must be one of the following $this->type types: " . implode(', ', $this->fileTypes) . ". '$fileType is not valid.");
+        $inferredMimeType = finfo_file($finfo, $_FILES[$this->name]['tmp_name']);
+        $mimeType = false;
+        $extension = false;
+        for ($i = 0; $i < count($this->fileTypes); $i++) {
+            $type = new $this->fileTypes[$i]();
+            if (in_array($_FILES[$this->name]['type'], $type->getAllowableSubmittedMimeTypes()) &&
+                in_array($inferredMimeType, $type->getAllowableInferredMimeTypes())
+                ) {
+                $mimeType = $type->getMimeType();
+                $extension = $type->getExtension();
+                $i = count($this->fileTypes);
+            }
+        }
+        if (!$mimeType || !$extension) {
+            $validator->setError($this->name, "$this->label is not one of the allowed types of files.");
             return;
         }
         $validator->setData($this->name, [
-            'data' => file_get_contents($_FILES[$this->name]['tmp_name']),
-            'type' => $fileType,
+            'name' => $_FILES[$this->name]['name'],
+            'type' => $mimeType,
+            'extension' => $extension,
+            'location' => $_FILES[$this->name]['tmp_name'],
         ]);
+    }
+
+    public function getFileTypeExtensionList()
+    {
+        return $this->fileTypeExtensionList;
     }
 }

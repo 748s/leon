@@ -1,6 +1,6 @@
 {% extends "@Leon/form/element/element.html.twig" %}
 {% block label %}
-    {% if element.showLabel %}<label class="control-label{% if element.isRequired or element.numRequired or element.minLength %} required {% endif %}" for="{{ element.name }}">{{ element.label }}</label>{% endif %}<span class="selectedFileName"></span>
+    {% if element.showLabel %}<label class="control-label{% if element.isRequired or element.numRequired or element.minLength %} required {% endif %}" for="{{ element.name }}">{{ element.label }} (.{{ element.fileTypeExtensionList|join(', .') }})</label>{% endif %}<span class="selectedFileName"></span>
     <br />
 {% endblock %}
 {% block content %}

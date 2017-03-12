@@ -2,15 +2,16 @@
 
 namespace Leon\Form\Element;
 
+use Leon\File\Type\CSV;
+use Leon\File\Type\XLS;
+use Leon\File\Type\XLSX;
+
 class Spreadsheet extends File
 {
     protected $type = 'image';
     protected $fileTypes = [
-        'application/vnd.ms-office', // xls
-        'application/vnd.ms-excel',
-        'text/plain',
-        'text/csv',
-        'text/tsv',
-        'text/comma-separated-values',
+        CSV::class,
+        XLS::class,
+        XLSX::class,
     ];
 }
