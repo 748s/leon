@@ -72,11 +72,13 @@
                 </div>
             </nav>
         {% endblock %}
-        <div class="container">
-            <div class="row">
-                {% block content %}{% endblock %}
+        {% block container %}
+            <div class="container">
+                <div class="row">
+                    {% block content %}{% endblock %}
+                </div>
             </div>
-        </div>
+        {% endblock %}
         {% block footer %}
 
         {% endblock %}
