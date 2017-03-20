@@ -32,6 +32,7 @@ class Config
     protected $prefixArguments = [];
     protected $arguments = [];
     protected $queryString;
+    protected $viewFQCN = '\Leon\View';
 
     public function __construct()
     {
@@ -246,5 +247,10 @@ class Config
     public function getQueryString()
     {
         return $this->queryString;
+    }
+
+    public function getViewFQCN()
+    {
+        return $this->viewFQCN;
     }
 }
