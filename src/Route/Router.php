@@ -34,7 +34,6 @@ class Router
 
     public function route()
     {
-        global $config;
         // turn the URI into an array of segments
         $this->segmentRequest();
         // pull out the pathPrefixes
@@ -48,8 +47,13 @@ class Router
             $this->notFoundAction();
             return;
         }
+        
         $this->matchAction();
-
+        if (!isset($this->route->actions->{$this->action}) or !$this->route->actions->{$this->action}->isActive) {
+            $this->notFoundAction();
+            return;
+        }
+        
         if (!$this->setArguments()) {
             $this->notFoundAction();
             return;
@@ -74,7 +78,7 @@ class Router
                 call_user_func_array([$controller, 'setPathPrefix'], $this->prefixArguments);
             } catch (InvalidArgumentException $e) {
                 $this->config->setAction('notFoundAction');
-                $this->notFoundAction();
+                $controller->notFoundAction();
                 return;
             }
         }
