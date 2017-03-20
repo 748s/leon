@@ -19,6 +19,7 @@ class Form
     protected $alert;
     protected $multipartFormData = false;
     protected $submitButtonText = 'Submit';
+    protected $template = '@Leon/form/form.html.twig';
 
     public function __construct()
     {
@@ -187,5 +188,17 @@ class Form
     public function getSubmitButtonText()
     {
         return $this->submitButtonText;
+    }
+
+    public function setTemplate(string $template)
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    public function getTemplate()
+    {
+        return $this->template;
     }
 }
