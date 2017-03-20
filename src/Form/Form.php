@@ -8,6 +8,8 @@ use Leon\Form\Validator;
 
 class Form
 {
+    protected $id;
+    protected $classes = [];
     protected $isAjax = false;
     protected $action;
     protected $title;
@@ -16,6 +18,37 @@ class Form
     protected $elements = [];
     protected $alert;
     protected $multipartFormData = false;
+
+    public function __construct()
+    {
+        global $config;
+        $this->id = str_replace(['\\', 'Controller'], '', $config->getController()) . 'Form';
+        $this->addClass(str_replace(['\\', 'Controller'], '', $config->getController()) . 'Form');
+    }
+
+    public function setId(string $id)
+    {
+        $this->id = $id;
+        
+        return $this;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function addClass(string $class)
+    {
+        $this->classes[] = $class;
+        
+        return $this;
+    }
+
+    public function getClasses()
+    {
+        return $this->classes;
+    }
 
     public function setTitle($title)
     {
