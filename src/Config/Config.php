@@ -31,6 +31,7 @@ class Config
     protected $action;
     protected $prefixArguments = [];
     protected $arguments = [];
+    protected $queryString;
 
     public function __construct()
     {
@@ -233,5 +234,17 @@ class Config
     public function getArguments()
     {
         return $this->arguments;
+    }
+
+    public function setQueryString(string $queryString)
+    {
+        $this->queryString = $queryString;
+
+        return $this;
+    }
+
+    public function getQueryString()
+    {
+        return $this->queryString;
     }
 }

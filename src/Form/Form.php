@@ -25,6 +25,7 @@ class Form
         global $config;
         $this->id = str_replace(['\\', 'Controller'], '', $config->getController()) . 'Form';
         $this->addClass(str_replace(['\\', 'Controller'], '', $config->getController()) . 'Form');
+        $this->action = $config->getQueryString();
     }
 
     public function setId(string $id)
@@ -66,6 +67,9 @@ class Form
     public function setIsAjax(bool $isAjax)
     {
         $this->isAjax = $isAjax;
+        if ($isAjax) {
+            $this->addClass('ajaxForm');
+        }
 
         return $this;
     }

@@ -175,6 +175,7 @@ class Router
     protected function segmentRequest()
     {
         $request = explode('?', $_SERVER['REQUEST_URI'])[0];
+        $this->config->setQueryString($request);
         $requestArray = explode('/', $request);
         if (count($requestArray) > 0) {
             foreach($requestArray as $segment) {
