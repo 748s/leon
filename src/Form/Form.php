@@ -9,6 +9,7 @@ use Leon\Form\Validator;
 class Form
 {
     protected $isAjax = false;
+    protected $action;
     protected $title;
     protected $data = [];
     protected $errors = [];
@@ -38,6 +39,18 @@ class Form
     public function getIsAjax()
     {
         return $this->isAjax;
+    }
+
+    public function setAction(string $action)
+    {
+        $this->action = $action;
+        
+        return $this;
+    }
+
+    public function getAction()
+    {
+        return $this->action;
     }
 
     public function addElement(Element $element)
