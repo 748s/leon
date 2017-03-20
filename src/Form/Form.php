@@ -18,6 +18,7 @@ class Form
     protected $elements = [];
     protected $alert;
     protected $multipartFormData = false;
+    protected $submitButtonText = 'Submit';
 
     public function __construct()
     {
@@ -29,7 +30,7 @@ class Form
     public function setId(string $id)
     {
         $this->id = $id;
-        
+
         return $this;
     }
 
@@ -41,7 +42,7 @@ class Form
     public function addClass(string $class)
     {
         $this->classes[] = $class;
-        
+
         return $this;
     }
 
@@ -170,5 +171,17 @@ class Form
     public function getMultipartFormData()
     {
         return $this->multipartFormData;
+    }
+
+    public function setSubmitButtonText(string $submitButtonText)
+    {
+        $this->submitButtonText = $submitButtonText;
+
+        return $this;
+    }
+
+    public function getSubmitButtonText()
+    {
+        return $this->submitButtonText;
     }
 }
