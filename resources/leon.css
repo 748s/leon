@@ -1,0 +1,45 @@
+
+.navbar {
+    border-radius: 0;
+}
+.tt-menu {
+    background: #fff;
+}
+
+.autocomplete-suggestions {
+    background-color: rgba(255, 255, 255, 0.75);
+    border: solid 1px #ccc;
+    border-radius: 4px;
+}
+.autocomplete-suggestion {
+    padding: 0 12px;
+}
+
+.textLeft {
+    text-align: left !important;
+}
+
+.btnFile {
+    position: relative;
+    overflow: hidden;
+}
+.selectFileBtn {
+}
+.changeFileBtn {
+    display: none;
+}
+.btnFile input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
