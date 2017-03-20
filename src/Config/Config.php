@@ -29,6 +29,8 @@ class Config
     protected $routes;
     protected $controller;
     protected $action;
+    protected $prefixArguments = [];
+    protected $arguments = [];
 
     public function __construct()
     {
@@ -207,5 +209,29 @@ class Config
     public function getAction()
     {
         return $this->action;
+    }
+
+    public function setPrefixArguments(array $prefixArguments = [])
+    {
+        $this->prefixArguments = $prefixArguments;
+        
+        return $this;
+    }
+
+    public function getPrefixArguments()
+    {
+        return $this->prefixArguments;
+    }
+
+    public function setArguments(array $arguments = [])
+    {
+        $this->arguments = $arguments;
+        
+        return $this;
+    }
+
+    public function getArguments()
+    {
+        return $this->arguments;
     }
 }

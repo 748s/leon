@@ -83,6 +83,8 @@ class Router
             }
         }
         $this->config->setAction($this->action);
+        $this->config->setPrefixArguments($this->prefixArguments);
+        $this->config->setArguments($this->arguments);
         call_user_func_array([$controller, $this->action], $this->arguments);
     }
 
