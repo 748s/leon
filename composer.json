@@ -18,6 +18,7 @@
         "components/bootstrap-datetimepicker": "^2.4.2",
         "bootstrap-select/bootstrap-select": "^1.12.2",
         "components/jquery": "^3.2.1",
-        "components/bootstrap": "^3.3.7"
+        "components/bootstrap": "^3.3.7",
+        "filsh/jquery-autocomplete": "dev-master"
     }
 }

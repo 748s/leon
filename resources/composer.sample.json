@@ -18,6 +18,7 @@
             "cp -r vendor/components/bootstrap components/bootstrap",
             "cp -r vendor/components/bootstrap-datetimepicker components/bootstrap-datetimepicker",
             "cp -r vendor/bootstrap-select/bootstrap-select components/bootstrap-select",
+            "cp -r vendor/filsh/jquery-autocomplete/dist components/jquery-autocomplete",
             "cp -r vendor/thehiredgun/leon/resources/components components/leon"
         ]
     }
