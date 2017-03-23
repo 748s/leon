@@ -22,8 +22,9 @@ class View
         } else {
             $this->twig = new Twig_Environment($TwigLoader, ['debug' => false]);
         }
-        $this->addGlobal(['websiteTitle' => $config->getWebsiteTitle()]);
+        $this->addGlobal(['config' => $config]);
         $this->addGlobal(['session' => $_SESSION]);
+        $this->addGlobal(['websiteTitle' => $config->getWebsiteTitle()]);
         $this->addGlobal(['alert' => $this->getAlert()]);
     }
 
