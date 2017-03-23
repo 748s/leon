@@ -14,6 +14,11 @@
     },
     "require": {
         "php" : ">=7.0",
-        "twig/twig": "^2.0"
+        "twig/twig": "^2.0",
+        "components/bootstrap-datetimepicker": "^2.4.2",
+        "bootstrap-select/bootstrap-select": "^1.12.2",
+        "components/jquery": "^3.2.1",
+        "components/bootstrap": "^3.3.7",
+        "kriswallsmith/assetic": "^1.4"
     }
 }
