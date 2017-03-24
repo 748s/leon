@@ -122,7 +122,6 @@ class Form
     public function setErrors($errors)
     {
         $this->errors = $errors;
-        $this->setAlert($errors);
 
         return $this;
     }
