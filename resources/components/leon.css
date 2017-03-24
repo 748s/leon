@@ -43,3 +43,11 @@
     cursor: inherit;
     display: block;
 }
+
+label.required:before {
+    content: "*";
+    position: relative;
+    top: .18em;
+    color: #a94442; /* Bootstrap's default error color */
+    font-weight: bold;
+}
