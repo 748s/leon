@@ -14,12 +14,12 @@
     "scripts": {
         "post-update-cmd": [
             "mkdir -p components",
-            "cp -r vendor/components/jquery  components/jquery",
-            "cp -r vendor/components/bootstrap components/bootstrap",
-            "cp -r vendor/components/bootstrap-datetimepicker components/bootstrap-datetimepicker",
-            "cp -r vendor/bootstrap-select/bootstrap-select components/bootstrap-select",
-            "cp -r vendor/filsh/jquery-autocomplete/dist components/jquery-autocomplete",
-            "cp -r vendor/thehiredgun/leon/resources/components components/leon"
+            "cp -a vendor/components/jquery/.  components/jquery/",
+            "cp -a vendor/components/bootstrap/. components/bootstrap/",
+            "cp -a vendor/components/bootstrap-datetimepicker/. components/bootstrap-datetimepicker/",
+            "cp -a vendor/bootstrap-select/bootstrap-select/. components/bootstrap-select/",
+            "cp -a vendor/filsh/jquery-autocomplete/dist/. components/jquery-autocomplete/",
+            "cp -a vendor/thehiredgun/leon/resources/components/. components/leon/"
         ]
     }
 }
