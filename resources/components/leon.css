@@ -44,10 +44,18 @@
     display: block;
 }
 
+form {
+    padding: 0 10px;
+}
+label.required {
+    position: relative;
+}
 label.required:before {
     content: "*";
-    position: relative;
-    top: .18em;
+    position: absolute;
+    right: 100%;
+    top: .17em;
+    padding-right: .17em;
     color: #a94442; /* Bootstrap's default error color */
     font-weight: bold;
 }
