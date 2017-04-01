@@ -25,15 +25,22 @@ class Date extends Element
     protected $maxLength = 10;
     protected $minLength = 10;
 
-    public function __construct($name, $label = '')
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->label = $label ? $label : Utility::getLabelFromName($name);
+        $this->label = Utility::getLabelFromName($name);
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setLabel(string $label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     public function getLabel()

@@ -2,15 +2,13 @@
 
 namespace Leon\File\Type;
 
-class PDF extends Type
+class PDF implements Type
 {
-    protected $name = 'pdf';
-    protected $extension = 'pdf';
-    protected $mimeType = 'application/pdf';
-    protected $allowableInferredMimeTypes = [
+    const MIME_TYPE = 'application/pdf';
+    const INFERRED_MIME_TYPES = [
         'application/pdf'
     ];
-    protected $allowableSubmittedMimeTypes = [
+    const SUBMITTED_MIME_TYPES = [
         'application/pdf'
     ];
 }

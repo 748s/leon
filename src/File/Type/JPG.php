@@ -4,13 +4,13 @@ namespace Leon\File\Type;
 
 class JPG extends Type
 {
-    protected $name = 'jpg';
-    protected $extension = 'jpg';
-    protected $mimeType = 'image/jpeg';
-    protected $allowableInferredMimeTypes = [
+    const NAME = 'jpg';
+    const EXTENSION = 'jpg';
+    const MIME_TYPE = 'image/jpeg';
+    const INFERRED_MIME_TYPES = [
         'image/jpeg',
     ];
-    protected $allowableSubmittedMimeTypes = [
+    const SUBMITTED_MIME_TYPES = [
         'image/jpeg',
     ];
 }

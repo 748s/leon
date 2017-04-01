@@ -4,13 +4,12 @@ namespace Leon\File\Type;
 
 class DOC extends Type
 {
-    protected $name = 'doc';
-    protected $extension = 'doc';
-    protected $mimeType = 'application/msword';
-    protected $allowableInferredMimeTypes = [
+    const EXTENSION = 'doc';
+    const MIME_TYPE = 'application/msword';
+    const INFERRED_MIME_TYPES = [
         'application/msword'
     ];
-    protected $allowableSubmittedMimeTypes = [
+    const SUBMITTED_MIME_TYPES = [
         'application/msword'
     ];
 }

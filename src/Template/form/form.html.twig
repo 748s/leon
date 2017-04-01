@@ -9,5 +9,6 @@
     </div>
     <script>
         $('select').selectpicker();
+        {% if form.useJqueryValidate %}$("#{{ form.id }}").validate();{% endif %}
     </script>
 </form>

@@ -24,16 +24,25 @@ class Select extends Element
     protected $options = [];
     protected $default;
 
-    public function __construct(string $name, array $options, string $label = '')
+    public function __construct(string $name, array $options)
     {
         $this->name = $name;
-        $this->label = $label ? $label : Utility::getLabelFromName($name);
-        $this->setOptions($options);
+        $this->label = Utility::getLabelFromName($name);
+        foreach ($options as $option) {
+            $this->options[] = new ValueLabel($option);
+        }
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setLabel(string $label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     public function getLabel()
@@ -51,15 +60,6 @@ class Select extends Element
     public function getShowLabel()
     {
         return $this->showLabel;
-    }
-
-    public function setOptions(array $options)
-    {
-        foreach ($options as $option) {
-            $this->options[] = new ValueLabel($option);
-        }
-
-        return $this;
     }
 
     public function getOptions()
@@ -90,7 +90,6 @@ class Select extends Element
     {
         return $this->isRequired;
     }
-
 
     public function validate(Validator $validator)
     {

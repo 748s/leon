@@ -4,13 +4,12 @@ namespace Leon\File\Type;
 
 class PNG extends Type
 {
-    protected $name = 'png';
-    protected $extension = 'png';
-    protected $mimeType = 'image/png';
-    protected $allowableInferredMimeTypes = [
+    const EXTENSION = 'png';
+    const MIME_TYPE = 'image/png';
+    const INFERRED_MIME_TYPES = [
         'image/png'
     ];
-    protected $allowableSubmittedMimeTypes = [
+    const SUBMITTED_MIME_TYPES = [
         'image/png'
     ];
 }

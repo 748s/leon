@@ -24,7 +24,9 @@ class Typeahead extends Element
         $this->name = $name;
         $this->label = Utility::getLabelFromName($name);
         $this->placeholder = $this->label;
-        $this->setSuggestions($suggestions);
+        foreach ($suggestions as $suggestion) {
+            $this->suggestions[] = new ValueLabel($suggestion);
+        }
     }
 
     public function getName()
@@ -71,15 +73,6 @@ class Typeahead extends Element
     public function setShowPlaceholder(bool $showPlaceholder)
     {
         $this->showPlaceholder = $showPlaceholder;
-
-        return $this;
-    }
-
-    public function setSuggestions(array $suggestions)
-    {
-        foreach ($suggestions as $suggestion) {
-            $this->suggestions[] = new ValueLabel($suggestion);
-        }
 
         return $this;
     }

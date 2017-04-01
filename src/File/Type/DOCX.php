@@ -4,13 +4,12 @@ namespace Leon\File\Type;
 
 class DOCX extends Type
 {
-    protected $name = 'docx';
-    protected $extension = 'docx';
-    protected $mimeType = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    protected $allowableInferredMimeTypes = [
+    const EXTENSION = 'docx';
+    const MIME_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    const INFERRED_MIME_TYPES = [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
-    protected $allowableSubmittedMimeTypes = [
+    const SUBMITTED_MIME_TYPES = [
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
 }

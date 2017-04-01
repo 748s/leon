@@ -21,20 +21,28 @@ class CheckboxGroup extends Element
     protected $name;
     protected $label;
     protected $showLabel = true;
-    protected $numRequired;
+    protected $numRequired = 1;
     protected $checkboxes = [];
 
-    public function __construct(string $name, array $checkboxes, string $label = '', int $numRequired = 1)
+    public function __construct(string $name, array $checkboxes)
     {
         $this->name = $name;
-        $this->label = $label ? $label : Utility::getLabelFromName($name);
-        $this->setCheckboxes($checkboxes);
-        $this->setNumRequired($numRequired);
+        $this->label = Utility::getLabelFromName($name);
+        foreach ($checkboxes as $checkbox) {
+            $this->checkboxes[] = new NameLabel($checkbox);
+        }
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setLabel(string $label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     public function getLabel()
@@ -52,15 +60,6 @@ class CheckboxGroup extends Element
     public function getShowLabel()
     {
         return $this->showLabel;
-    }
-
-    public function setCheckboxes(array $checkboxes)
-    {
-        foreach ($checkboxes as $checkbox) {
-            $this->checkboxes[] = new NameLabel($checkbox);
-        }
-
-        return $this;
     }
 
     public function getCheckboxes()

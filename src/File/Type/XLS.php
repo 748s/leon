@@ -4,13 +4,12 @@ namespace Leon\File\Type;
 
 class XLS extends Type
 {
-    protected $name = 'xls';
-    protected $extension = 'xls';
-    protected $mimeType = 'application/vnd.ms-excel';
-    protected $allowableInferredMimeTypes = [
+    const EXTENSION = 'xls';
+    const MIME_TYPE = 'application/vnd.ms-excel';
+    const INFERRED_MIME_TYPES = [
         'application/vnd.ms-excel',
     ];
-    protected $allowableSubmittedMimeTypes = [
+    const SUBMITTED_MIME_TYPES = [
         'application/vnd.ms-excel',
     ];
 }

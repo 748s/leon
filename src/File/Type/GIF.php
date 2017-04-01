@@ -4,13 +4,12 @@ namespace Leon\File\Type;
 
 class GIF extends Type
 {
-    protected $name = 'gif';
-    protected $extension = 'gif';
-    protected $mimeType = 'image/gif';
-    protected $allowableInferredMimeTypes = [
+    const EXTENSION = 'gif';
+    const MIME_TYPE = 'image/gif';
+    const INFERRED_MIME_TYPES = [
         'image/gif'
     ];
-    protected $allowableSubmittedMimeTypes = [
+    const SUBMITTED_MIME_TYPES = [
         'image/gif'
     ];
 }

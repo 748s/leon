@@ -5,6 +5,7 @@ namespace Leon\Form;
 use Exception;
 use Leon\Form\Element\Element;
 use Leon\Form\Validator;
+use Leon\Utility\Utility;
 
 class Form
 {
@@ -20,6 +21,7 @@ class Form
     protected $multipartFormData = false;
     protected $submitButtonText = 'Submit';
     protected $template = '@Leon/form/form.html.twig';
+    protected $useJqueryValidate = true;
 
     public function __construct()
     {
@@ -91,14 +93,15 @@ class Form
     {
         return $this->action;
     }
-
-    public function addElement(Element $element)
+    
+    public function addElement(string $class, array $configuration)
     {
+        $element = Utility::instantiate($class, $configuration, true);
         $this->elements[] = $element;
         if (method_exists($element, 'getMultipartFormData') && $element->getMultipartFormData()) {
             $this->setMultipartFormData(true);
         }
-
+        
         return $this;
     }
 
@@ -199,5 +202,17 @@ class Form
     public function getTemplate()
     {
         return $this->template;
+    }
+
+    public function setUseJqueryValidate(bool $useJqueryValidate)
+    {
+        $this->useJqueryValidate = $useJqueryValidate;
+        
+        return $this;
+    }
+
+    public function getUseJqueryValidate()
+    {
+        return $this->useJqueryValidate;
     }
 }

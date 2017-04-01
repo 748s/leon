@@ -22,10 +22,10 @@ class Checkbox extends Element
     protected $template = '@Leon/form/element/checkbox.html.twig';
     protected $isRequired = false;
 
-    public function __construct($name, $label = '')
+    public function __construct($name)
     {
         $this->name = $name;
-        $this->label = $label ? $label : Utility::getLabelFromName($name);
+        $this->label = Utility::getLabelFromName($name);
     }
 
     public function getName()
@@ -76,5 +76,4 @@ class Checkbox extends Element
             $validator->setError($this->name, $this->getErrorMessage("You must check the box for %label%"));
         }
     }
-
 }

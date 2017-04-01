@@ -24,16 +24,25 @@ class Radio extends Element
     protected $isRequired = true;
     protected $choices = [];
 
-    public function __construct($name, array $choices, $label = '')
+    public function __construct($name, array $choices)
     {
         $this->name = $name;
-        $this->label = $label ? $label : Utility::getLabelFromName($name);
-        $this->setChoices($choices);
+        $this->label = Utility::getLabelFromName($name);
+        foreach ($choices as $choice) {
+            $this->choices[] = new ValueLabel($choice);
+        }
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setLabel(string $label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     public function getLabel()
@@ -56,15 +65,6 @@ class Radio extends Element
     public function getIsRequired()
     {
         return $this->isRequired;
-    }
-
-    public function setChoices($choices)
-    {
-        foreach ($choices as $choice) {
-            $this->choices[] = new ValueLabel($choice);
-        }
-
-        return $this;
     }
 
     public function getChoices()

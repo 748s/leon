@@ -19,21 +19,23 @@ abstract class StringElement extends Element
     protected $stripTags = true;
     protected $errorMessage;
 
-    public function __construct($name, $label = '')
+    public function __construct($name)
     {
         $this->name = $name;
-        if (!$label) {
-            $this->label = Utility::getLabelFromName($name);
-            $this->placeholder = $this->label;
-        } else {
-            $this->label = $label;
-            $this->placeholder = $label;
-        }
+        $this->label = Utility::getLabelFromName($name);
+        $this->placeholder = $this->label;
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setLabel(string $label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     public function getLabel()
@@ -53,7 +55,7 @@ abstract class StringElement extends Element
         return $this->showLabel;
     }
 
-    public function setPlaceholder($placeholder)
+    public function setPlaceholder(string $placeholder)
     {
         $this->placeholder = $placeholder;
 

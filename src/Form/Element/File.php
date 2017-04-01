@@ -15,8 +15,6 @@ abstract class File extends Element
     protected $name;
     protected $label;
     protected $showLabel = true;
-    protected $fileTypeNameList = [];
-    protected $showFileTypeNameList = false;
     protected $fileTypeExtensionList = [];
     protected $showFileTypeExtensionList = true;
     protected $maxFileSize;
@@ -27,16 +25,21 @@ abstract class File extends Element
         $this->name = $name;
         $this->label = Utility::getLabelFromName($name);
         $this->setMaxFileSize(ini_get('upload_max_filesize'));
-        foreach ($this->fileTypes as $typeName) {
-            $fileType = new $typeName();
-            $this->fileTypeNameList[] = $fileType->getName();
-            $this->fileTypeExtensionList[] = $fileType->getExtension();
+        foreach ($this->fileTypes as $fileType) {
+            $this->fileTypeExtensionList[] = $fileType::EXTENSION;
         }
     }
 
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setLabel(string $label)
+    {
+        $this->label = $label;
+
+        return $this;
     }
 
     public function getLabel()
@@ -114,26 +117,22 @@ abstract class File extends Element
         }
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $inferredMimeType = finfo_file($finfo, $_FILES[$this->name]['tmp_name']);
-        $mimeType = false;
-        $extension = false;
-        for ($i = 0; $i < count($this->fileTypes); $i++) {
-            $type = new $this->fileTypes[$i]();
-            if (in_array($_FILES[$this->name]['type'], $type->getAllowableSubmittedMimeTypes()) &&
-                in_array($inferredMimeType, $type->getAllowableInferredMimeTypes())
+        $type = null;
+        foreach ($this->fileTypes as $fileType) {
+            if (in_array($_FILES[$this->name]['type'], $fileType::SUBMITTED_MIME_TYPES) &&
+                in_array($inferredMimeType, $fileType::INFERRED_MIME_TYPES)
                 ) {
-                $mimeType = $type->getMimeType();
-                $extension = $type->getExtension();
-                $i = count($this->fileTypes);
+                $type = $fileType;
+                break;
             }
         }
-        if (!$mimeType || !$extension) {
+        if (!$type) {
             $validator->setError($this->name, "$this->label is not one of the allowed types of files.");
             return;
         }
         $validator->setData($this->name, [
             'name' => $_FILES[$this->name]['name'],
-            'type' => $mimeType,
-            'extension' => $extension,
+            'type' => $type,
             'location' => $_FILES[$this->name]['tmp_name'],
         ]);
     }

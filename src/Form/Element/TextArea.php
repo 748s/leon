@@ -33,5 +33,4 @@ class TextArea extends StringElement
     {
         return $this->resize;
     }
-
 }
