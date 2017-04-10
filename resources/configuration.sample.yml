@@ -14,3 +14,5 @@ database:
 # table names for the request and error logs
 requestLog: request
 errorLog: error
+viewClass: \Leon\View\Twig
+permissionClass: \Leon\Permission

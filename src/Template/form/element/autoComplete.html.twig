@@ -1,12 +1,12 @@
 {% extends "@Leon/form/element/element.html.twig" %}
 {% block content %}
-    <input type="text" class="form-control" name="{{ element.name }}Typeahead" value="" {% if element.placeholder and element.showPlaceholder %}placeholder="{{ element.placeholder }}" {% endif %} {% if element.isRequired %}required {% endif %}/>
+    <input type="text" class="form-control" name="{{ element.name }}AutoComplete" value="" {% if element.placeholder and element.showPlaceholder %}placeholder="{{ element.placeholder }}" {% endif %} {% if element.isRequired %}required {% endif %}/>
     <input type="hidden" name="{{ element.name }}" value="{{ form.data[element.name] }}" >
     <script>
         var {{ element.name }}Suggestions = [{% for suggestion in element.suggestions %}
             {value:'{{ suggestion.label }}', data:'{{ suggestion.value }}'}{% if not loop.last %},{% endif %}
         {% endfor %}];
-        $("input[name='{{ element.name }}Typeahead']").autocomplete({
+        $("input[name='{{ element.name }}AutoComplete']").autocomplete({
             lookup: {{ element.name }}Suggestions,
             autoSelectFirst: true,
             onSelect: function(suggestion) {
@@ -16,19 +16,19 @@
         $(document).ready(function() {
             $.each({{ element.name }}Suggestions, function() {
                 if ("{{ form.data[element.name] }}" == this.data) {
-                    $("input[name='{{ element.name }}Typeahead']").val(this.value);
+                    $("input[name='{{ element.name }}AutoComplete']").val(this.value);
                     return;
                 }
             });
         });
-        $("input[name='{{ element.name }}Typeahead']").blur(function() {
+        $("input[name='{{ element.name }}AutoComplete']").blur(function() {
             setTimeout(function() {
-                var data = findSuggestionData({{ element.name }}Suggestions, $("input[name='{{ element.name }}Typeahead']").val());
+                var data = findSuggestionData({{ element.name }}Suggestions, $("input[name='{{ element.name }}AutoComplete']").val());
                 if (data) {
                     $("input[name='{{ element.name }}']").val(data);
                     $("input[name='{{ element.name }}']").closest('.form-group').removeClass("has-error");
                 } else {
-                    $("input[name='{{ element.name }}Typeahead']").closest(".form-group").addClass('has-error');
+                    $("input[name='{{ element.name }}AutoComplete']").closest(".form-group").addClass('has-error');
                 }
             }, 50);
         });

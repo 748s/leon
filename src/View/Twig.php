@@ -1,30 +1,29 @@
 <?php
 
-namespace Leon;
+namespace Leon\View;
 
 use Twig_Environment;
 use Twig_Extension_Debug;
 use Twig_Loader_Filesystem;
 use Twig_SimpleFilter;
 
-class View
+class Twig extends View
 {
     protected $twig;
     protected $globals = [];
 
     public function __construct()
     {
-        global $config;
+        global $configuration;
         $TwigLoader = new Twig_Loader_Filesystem($_SERVER['DOCUMENT_ROOT'] . '/App/Template');
         $TwigLoader->addPath('./vendor/thehiredgun/leon/src/Template', 'Leon');
-        if ('production' !== $config->getEnvironment()) {
+        if ('production' !== $configuration->getEnvironment()) {
             $this->twig = new Twig_Environment($TwigLoader, ['debug' => true]);
         } else {
             $this->twig = new Twig_Environment($TwigLoader, ['debug' => false]);
         }
-        $this->addGlobal(['config' => $config]);
+        $this->addGlobal(['config' => $configuration]);
         $this->addGlobal(['session' => $_SESSION]);
-        $this->addGlobal(['websiteTitle' => $config->getWebsiteTitle()]);
         $this->addGlobal(['alert' => $this->getAlert()]);
     }
 

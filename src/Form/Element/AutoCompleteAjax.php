@@ -7,26 +7,26 @@ use Leon\Form\Element\Element;
 use Leon\Form\Validator;
 use Leon\Utility\Utility;
 
-class Typeahead extends Element
+class AutoCompleteAjax extends Element
 {
-    protected $type = 'typeahead';
-    protected $template = '@Leon/form/element/typeahead.html.twig';
+    protected $type = 'autoCompleteAjax';
+    protected $template = '@Leon/form/element/autoCompleteAjax.html.twig';
     protected $name;
     protected $label;
     protected $showLabel = true;
     protected $placeholder = true;
     protected $showPlaceholder = true;
+    protected $URL;
+    protected $tableName;
     protected $isRequired = true;
-    protected $suggestions = [];
 
-    public function __construct($name, array $suggestions)
+    public function __construct(string $name, string $URL, string $tableName)
     {
         $this->name = $name;
         $this->label = Utility::getLabelFromName($name);
         $this->placeholder = $this->label;
-        foreach ($suggestions as $suggestion) {
-            $this->suggestions[] = new ValueLabel($suggestion);
-        }
+        $this->URL = $URL;
+        $this->tableName = $tableName;
     }
 
     public function getName()
@@ -77,9 +77,9 @@ class Typeahead extends Element
         return $this;
     }
 
-    public function getSuggestions()
+    public function getURL()
     {
-        return $this->suggestions;
+        return $this->URL;
     }
 
     public function setIsRequired(bool $isRequired)
@@ -95,15 +95,11 @@ class Typeahead extends Element
     }
 
     public function validate(Validator $validator) {
+        global $db;
         $source = $validator->getSource($this->getName());
-        $value = null;
-        foreach ($this->suggestions as $suggestion) {
-            if ($source === $suggestion->getValue()) {
-                $value = $suggestion->getValue();
-                $validator->setData($this->name, $value);
-            }
-        }
-        if ($this->isRequired && is_null($value)) {
+        if ($db->getOneById($this->tableName, $source)) {
+            $validator->setData($this->name, $source);
+        } elseif ($this->isRequired) {
             $validator->setError($this->name, "$this->name is a required field");
         }
     }

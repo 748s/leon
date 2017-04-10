@@ -6,9 +6,9 @@ class HTMLResponse extends Response
 {
     public function __construct(string $template, array $vars = [])
     {
-        global $config;
-        $viewFQCN = $config->getViewFQCN();
-        $view = new $viewFQCN();
+        global $configuration;
+        $class = $configuration->getView()->getClass();
+        $view = new $class();
         echo $view->render($template, $vars);
     }
 }

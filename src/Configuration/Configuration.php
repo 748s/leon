@@ -1,24 +1,27 @@
 <?php
 
-namespace Leon\Config;
+namespace Leon\Configuration;
 
 use DateTimeZone;
+use Exception;
 use InvalidArgumentException;
-use Leon\Config\Database\MySQL;
-use StdClass;
+use Leon\Configuration\Database\MySQL;
+use Leon\Configuration\Route\Route;
 
 /**
- * Config
- * Setup and validate configuration properties for the rest of the application
+ * Configuration
+ * Setup and validate configuration properties for the application and the request
  *
  * @author Nick Wakeman <nick@thehiredgun.tech>
  * @since  1.0.0 (2017-03-01)
  */
-class Config
+class Configuration
 {
-    private $source;
+    protected $source;
     protected $startTime;
     protected $environment;
+    protected $errorReporting;
+    protected $displayErrors;
     protected $timeZone;
     protected $protocol;
     protected $domain;
@@ -27,38 +30,51 @@ class Config
     protected $requestLog;
     protected $pathPrefixes;
     protected $routes;
+    
+    /**
+     * @var Route $route
+     * the route containing info about the selected controller
+     */
+    protected $route;
+
+    /**
+     * @var string $controller 
+     * the controller which handles the request
+     */
     protected $controller;
+
+    /**
+     * @var string $action
+     * the action which handles the request
+     */
     protected $action;
     protected $prefixArguments = [];
-    protected $arguments = [];
+    protected $actionArguments = [];
     protected $queryString;
-    protected $viewFQCN = '\Leon\View';
+    protected $view;
+    protected $permission;
 
     public function __construct()
     {
-        $this->source = yaml_parse_file('./config.yml');
+        $this->source = yaml_parse_file('./configuration.yml');
+        $this->startTime = microtime(true);
         $this->setTimeZone();
-        $this->setStartTime();
         $this->setEnvironment();
         $this->setProtocol();
         $this->setDomain();
-        $this->setWebsiteTitle();
         $this->setDatabase();
         $this->setErrorLog();
         $this->setRequestLog();
+        $this->setView();
+        $this->setPermission();
     }
 
     protected function getSource($key)
     {
         if (!isset($this->source[$key])) {
-            Throw new InvalidArgumentException();
+            Throw new InvalidArgumentException('Key not found in config.yml');
         }
         return $this->source[$key];
-    }
-
-    protected function setStartTime()
-    {
-        $this->startTime = microtime(true);
     }
 
     public function getStartTime()
@@ -73,6 +89,17 @@ class Config
             Throw new InvalidArgumentException("config->environment must be 'development', 'staging', or 'production'");
         }
         $this->environment = $environment;
+        switch (strtolower($this->environment)) {
+            case 'development':
+                $this->errorReporting = -1;
+                $this->displayErrors = true;
+            break;
+            case 'staging':
+            case 'production':
+                $this->errorReporting = E_WARNING;
+                $this->displayErrors = false;
+            break;
+        }
     }
 
     public function getEnvironment()
@@ -80,11 +107,25 @@ class Config
         return $this->environment;
     }
 
+    public function getErrorReporting()
+    {
+        return $this->errorReporting;
+    }
+
+    public function getDisplayErrors()
+    {
+        return $this->displayErrors;
+    }
+
     protected function setTimeZone()
     {
         $timeZone = $this->getSource('timeZone');
-        date_default_timezone_set($timeZone);
-        $this->timeZone = new DateTimeZone($timeZone);
+        try {
+            new DateTimeZone($timeZone);
+            $this->timeZone = $timeZone;
+        } catch (Exception $e) {
+            Throw new InvalidArgumentException("'$timeZone' is not a valid timeZone");
+        }
     }
 
     public function getTimeZone()
@@ -115,16 +156,6 @@ class Config
     public function getDomain()
     {
         return $this->domain;
-    }
-
-    protected function setWebsiteTitle()
-    {
-        $this->websiteTitle = $this->getSource('websiteTitle');
-    }
-
-    public function getWebsiteTitle()
-    {
-        return $this->websiteTitle;
     }
 
     protected function setDatabase()
@@ -189,6 +220,18 @@ class Config
         return $this->routes;
     }
 
+    public function setRoute(Route $route)
+    {
+        $this->route = $route;
+        
+        return $this;
+    }
+
+    public function getRoute()
+    {
+        return $this->route;
+    }
+
     public function setController($controller)
     {
         $this->controller = $controller;
@@ -225,16 +268,16 @@ class Config
         return $this->prefixArguments;
     }
 
-    public function setArguments(array $arguments = [])
+    public function setActionArguments(array $actionArguments = [])
     {
-        $this->arguments = $arguments;
+        $this->actionArguments = $actionArguments;
         
         return $this;
     }
 
-    public function getArguments()
+    public function getActionArguments()
     {
-        return $this->arguments;
+        return $this->actionArguments;
     }
 
     public function setQueryString(string $queryString)
@@ -249,8 +292,51 @@ class Config
         return $this->queryString;
     }
 
-    public function getViewFQCN()
+    protected function setView()
     {
-        return $this->viewFQCN;
+        $this->view = new class($this->getSource('view')['class']) {
+            protected $class;
+
+            public function __construct($class)
+            {
+                $this->class = $class;
+            }
+
+            public function getClass()
+            {
+                return $this->class;
+            }
+        };
+
+        return $this;
+    }
+
+    public function getView()
+    {
+        return $this->view;
+    }
+
+    protected function setPermission()
+    {
+        $this->permission = new class($this->getSource('permission')['class']) {
+            protected $class;
+
+            public function __construct($class)
+            {
+                $this->class = $class;
+            }
+
+            public function getClass()
+            {
+                return $this->class;
+            }
+        };
+        
+        return $this;
+    }
+
+    public function getPermission()
+    {
+        return $this->permission;
     }
 }

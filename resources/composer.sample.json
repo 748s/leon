@@ -19,7 +19,8 @@
             "cp -a vendor/components/bootstrap-datetimepicker/. components/bootstrap-datetimepicker/",
             "cp -a vendor/bootstrap-select/bootstrap-select/. components/bootstrap-select/",
             "cp -a vendor/filsh/jquery-autocomplete/dist/. components/jquery-autocomplete/",
-            "cp -a vendor/thehiredgun/leon/resources/components/. components/leon/"
+            "cp -a vendor/thehiredgun/leon/resources/components/. components/leon/",
+            "cp -a vendor/fortawesome/font-awesome/. components/font-awesome/"
         ]
     }
 }

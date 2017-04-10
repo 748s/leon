@@ -19,6 +19,7 @@
         "bootstrap-select/bootstrap-select": "^1.12.2",
         "components/jquery": "^3.2.1",
         "components/bootstrap": "^3.3.7",
-        "filsh/jquery-autocomplete": "dev-master"
+        "filsh/jquery-autocomplete": "dev-master",
+        "FortAwesome/Font-Awesome": "^4.7"
     }
 }

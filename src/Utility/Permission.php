@@ -1,6 +1,6 @@
 <?php
 
-namespace Leon;
+namespace Leon\Utility;
 
 class Permission
 {

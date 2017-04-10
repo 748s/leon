@@ -2,34 +2,31 @@
 
 namespace Leon\Form\Element;
 
-use Exception;
+use Leon\Form\Choice\ValueLabel;
 use Leon\Form\Element\Element;
 use Leon\Form\Validator;
 use Leon\Utility\Utility;
 
-/**
- * Text
- *
- * @author Nick Wakeman <nick@thehiredgun.tech
- * @since  1.0.0 (2017-03-03)
- */
-class Date extends Element
+class AutoComplete extends Element
 {
-    protected $type = 'date';
-    protected $template = '@Leon/form/element/date.html.twig';
+    protected $type = 'autoComplete';
+    protected $template = '@Leon/form/element/autoComplete.html.twig';
     protected $name;
     protected $label;
     protected $showLabel = true;
-    protected $placeholder = 'YYYY-MM-DD';
+    protected $placeholder = true;
     protected $showPlaceholder = true;
-    protected $maxLength = 10;
-    protected $minLength = 10;
     protected $isRequired = true;
+    protected $suggestions = [];
 
-    public function __construct($name)
+    public function __construct($name, array $suggestions)
     {
         $this->name = $name;
         $this->label = Utility::getLabelFromName($name);
+        $this->placeholder = $this->label;
+        foreach ($suggestions as $suggestion) {
+            $this->suggestions[] = new ValueLabel($suggestion);
+        }
     }
 
     public function getName()
@@ -80,33 +77,34 @@ class Date extends Element
         return $this;
     }
 
-    public function getShowPlaceholder()
+    public function getSuggestions()
     {
-        return $this->showPlaceholder;
-    }
-
-    public function validate(Validator $validator)
-    {
-        $date = trim($validator->getSource($this->name));
-        $dateArray = explode('-', $date);
-        if (3 !== count($dateArray)) {
-            $validator->setError($this->name, "A valid date is required for $this->label");
-        } elseif (!checkdate($dateArray[1], $dateArray[2], $dateArray[0])) {
-            $validator->setError($this->name, "A valid date is required for $this->label");
-        } else {
-            $validator->setData($this->name, $date);
-        }
+        return $this->suggestions;
     }
 
     public function setIsRequired(bool $isRequired)
     {
         $this->isRequired = $isRequired;
-        
+
         return $this;
     }
-    
+
     public function getIsRequired()
     {
         return $this->isRequired;
+    }
+
+    public function validate(Validator $validator) {
+        $source = $validator->getSource($this->getName());
+        $value = null;
+        foreach ($this->suggestions as $suggestion) {
+            if ($source === $suggestion->getValue()) {
+                $value = $suggestion->getValue();
+                $validator->setData($this->name, $value);
+            }
+        }
+        if ($this->isRequired && is_null($value)) {
+            $validator->setError($this->name, "$this->name is a required field");
+        }
     }
 }

@@ -1,0 +1,31 @@
+{% extends "@Leon/form/element/element.html.twig" %}
+{% block content %}
+    <input type="text" class="form-control" name="{{ element.name }}AutoComplete" value="" {% if element.placeholder and element.showPlaceholder %}placeholder="{{ element.placeholder }}" {% endif %} {% if element.isRequired %}required {% endif %}/>
+    <input type="hidden" name="{{ element.name }}" value="{{ form.data[element.name] }}" >
+    <script>
+        $("input[name='{{ element.name }}AutoComplete']").autocomplete({
+            serviceUrl: "{{ element.URL }}",
+            autoSelectFirst: true,
+            onSelect: function(suggestion) {
+                $("input[name='{{ element.name }}']").val(suggestion.data);
+            }
+        });
+        $(document).ready(function() {
+            var elementValue = $("input[name='{{ element.name }}']").val();
+            if (elementValue && elementValue != '') {
+                $.ajax({
+                    url: "{{ element.URL }}" + "?{{ element.name }}=" + elementValue,
+                    dataType: "json"
+                }).done(function(response) {
+                    $("input[name='{{ element.name }}AutoComplete']").val(response.value);
+                });
+            }
+//            $.each({{ element.name }}Suggestions, function() {
+//                if ("{{ form.data[element.name] }}" == this.data) {
+//                    $("input[name='{{ element.name }}AutoComplete']").val(this.value);
+//                    return;
+//                }
+//            });
+        });
+    </script>
+{% endblock %}

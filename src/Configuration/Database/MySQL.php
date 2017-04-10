@@ -1,6 +1,6 @@
 <?php
 
-namespace Leon\Config\Database;
+namespace Leon\Configuration\Database;
 
 class MySQL extends Database
 {

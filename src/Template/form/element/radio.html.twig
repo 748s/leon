@@ -1,10 +1,33 @@
 {% extends "@Leon/form/element/element.html.twig" %}
 {% block content %}
-    <div class="btn-group-vertical" data-toggle="buttons">
-        {% for choice in element.choices %}
-            <label class="btn btn-default textLeft{% if form.data[element.name] == choice.value %} active{% endif %}">
-                <input type="radio" name="{{ element.name }}" value="{{ choice.value }}" {% if form.data[element.name] == choice.value %}checked {% endif %} required />{{ choice.label }}
-            </label>
-        {% endfor %}
+    <div class="radioWrapper" style="position: relative; display: inline-block;">
+        <div class="btn-group-vertical" data-toggle="buttons"{% if element.other is defined %}style="min-width: 150px;"{% endif %}>
+            {% for choice in element.choices %}
+                <label class="btn btn-default textLeft{% if form.data[element.name] == choice.value %} active{% endif %}">
+                    <input type="radio" name="{{ element.name }}" value="{{ choice.value }}" {% if form.data[element.name] == choice.value %}checked {% endif %} required />{{ choice.label }}
+                </label>
+            {% endfor %}
+            {% if element.other is defined %}
+                <label class="btn btn-default textLeft{% if form.data[element.other.name] %} active{% endif %}">
+                    <input type="radio" name="{{ element.name }}" value="other" {% if form.data[element.other.name] %}checked {% endif %} required />
+                </label>
+            {% endif %}
+        </div>
+        {% if element.other is defined %}
+             <input style="padding-left: 29px; position: absolute; bottom: 0; z-index: 1000; background: transparent; width: 100%; border: none; box-shadow: none; overflow: hidden;" class="form-control" type="text" name="{{ element.other.name }}" value="{{ form.data[element.other.name] }}"  placeholder="{{ element.other.placeholder }}" />
+        {% endif %}
     </div>
+    <script>
+        $("input[name='{{ element.name }}']").change(function() {
+            if ($(this).val() != 'other') {
+                $("input[name='{{ element.other.name }}']").val('').removeAttr("required");
+            }
+        });
+        var element = $("input[name='{{ element.other.name }}']");
+        $(element).on('click, focus', function() {
+            $(this).attr("required", "required");
+            $("input[name='{{ element.name }}'][value='other']").attr("checked", "checked").closest("label").addClass("active").siblings("label").removeClass("active");
+            alert('s');
+        });
+    </script>
 {% endblock %}

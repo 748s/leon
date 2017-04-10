@@ -2,14 +2,14 @@
 
 namespace Leon\Response\JSON;
 
-class ReplaceByIdResponse extends JSON
+class JSONReplaceByIdResponse extends JSONResponse
 {
     public function __construct(array $array)
     {
         parent::__construct();
-        global $config;
-        $viewFQCN = $config->getViewFQCN();
-        $view = new $viewFQCN();
+        global $configuration;
+        $class = $configuration->getView()->getClass();
+        $view = new $class();
         $result = [
             'replaceById' => [],
         ];

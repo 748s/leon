@@ -2,7 +2,7 @@
 
 namespace Leon\Response\JSON;
 
-class RedirectResponse extends JSON
+class JSONRedirectResponse extends JSONResponse
 {
     public function __construct(string $location)
     {

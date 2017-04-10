@@ -3,7 +3,7 @@
 namespace Leon\Response;
 
 use Leon\Form\Form;
-use Leon\Response\JSON\ReplaceByIdResponse;
+use Leon\Response\JSON\JSONReplaceByIdResponse;
 
 class FormResponse extends Response
 {
@@ -16,7 +16,7 @@ class FormResponse extends Response
             'POST' === $_SERVER['REQUEST_METHOD']
         ) {
             $form = $vars['form'];
-            return new ReplaceByIdResponse([
+            return new JSONReplaceByIdResponse([
                 $form->getId() => [
                     'template' => $form->getTemplate(),
                     'vars'     => $vars,

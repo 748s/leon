@@ -2,21 +2,20 @@
 
 namespace Leon\Database;
 
+use Leon\Configuration\Database\Database as DatabaseConfiguration;
 use InvalidArgumentException;
-use Leon\Database\DatabaseInterface;
 use PDO;
 use PDOException;
 
 /**
- * Arm: ArrayRelationalMapping
- * A database abstraction class with behavior similar to an ORM
+ * MySQL
  *
  * @author Nick Wakeman <nick.wakeman@gmail.com>
- * @since  2016-10-07
+ * @since  1.0.0 (2016-10-07)
  *
  * @todo add param matching and adding of ':' for all query types (just like put())
  */
-class MySQL implements DatabaseInterface
+class MySQL extends Database
 {
     protected $db;
     protected $numQueries = 0;
@@ -24,23 +23,22 @@ class MySQL implements DatabaseInterface
     protected $tables = [];
     protected $type;
 
-    public function __construct()
+    public function __construct(DatabaseConfiguration $databaseConfiguration)
     {
-        global $config;
-        $databaseConfig = $config->getDatabase();
-        $pdoOptions  = array(
+        global $configuration;
+        $pdoOptions  = [
             PDO::MYSQL_ATTR_FOUND_ROWS   => true,
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        );
+        ];
         $this->db = new PDO(
-            "mysql:host={$databaseConfig->getHost()};dbname={$databaseConfig->getDatabase()}",
-            $databaseConfig->getUser(),
-            $databaseConfig->getPassword(),
+            "mysql:host={$databaseConfiguration->getHost()};dbname={$databaseConfiguration->getDatabase()}",
+            $databaseConfiguration->getUser(),
+            $databaseConfiguration->getPassword(),
             $pdoOptions
         );
         $query = 'SELECT TABLE_NAME, COLUMN_NAME, COLUMN_KEY FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = :tableSchema';
-        $result = $this->select($query, [':tableSchema' => $databaseConfig->getDatabase()]);
+        $result = $this->select($query, [':tableSchema' => $databaseConfiguration->getDatabase()]);
         foreach ($result as $tableColumn) {
             if ($tableColumn['COLUMN_KEY'] === 'PRI') {
               $this->primaryKeys[$tableColumn['TABLE_NAME']] = $tableColumn['COLUMN_NAME'];
@@ -215,7 +213,6 @@ class MySQL implements DatabaseInterface
 
         return true;
     }
-
 
     private function validateTableName($tableName)
     {

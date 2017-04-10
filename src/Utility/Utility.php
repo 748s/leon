@@ -15,6 +15,22 @@ use ReflectionMethod;
 class Utility
 {
     /**
+     * configure
+     *
+     * Set some server settings
+     *
+     * @Author Nick Wakeman <nick@thehiredgun.tech>
+     * @Since. 1.0.0 (2017-04-09)
+     */
+    public static function configure()
+    {
+        global $configuration;
+        ini_set('error_reporting', $configuration->getErrorReporting());
+        ini_set('display_errors', $configuration->getDisplayErrors());
+        date_default_timezone_set($configuration->getTimeZone());
+    }
+
+    /**
      * getLabelFromName
      *
      * Get a Pretty Label from a camelCaps field name like 'prettyLabel'

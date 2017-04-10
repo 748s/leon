@@ -1,10 +1,9 @@
 <?php
 
-namespace Leon;
+namespace Leon\Controller;
 
 use InvalidArgumentException;
-use Leon\Permission;
-use Leon\View;
+use Leon\Response\HTMLResponse;
 use ReflectionClass;
 
 /**
@@ -18,15 +17,18 @@ use ReflectionClass;
  */
 abstract class Controller
 {
+    protected $configuration;
     protected $db;
     protected $permission;
     protected $view;
 
     public function __construct()
     {
-        global $db;
+        global $configuration, $db;
+        $this->configuration = $configuration;
         $this->db = $db;
-        $this->permission = new Permission();
+        $permissionClass = $this->configuration->getPermission()->getClass();
+        $this->permission = new $permissionClass();
     }
 
     public function getIsLoggedIn()
@@ -43,19 +45,19 @@ abstract class Controller
     public function forbiddenAction()
     {
         header("HTTP/1.0 403 Forbidden");
-        echo $this->loadView()->render('@Leon/forbidden.index.html.twig');
+        return new HTMLResponse('@Leon/forbidden.index.html.twig');
     }
 
     public function notFoundAction()
     {
         header("HTTP/1.0 404 Not Found");
-        echo $this->loadView()->render('@Leon/notFound.index.html.twig');
+        return new HTMLResponse('@Leon/notFound.index.html.twig');
     }
 
     public function internalServerErrorAction()
     {
         header("HTTP/1.0 500 Internal Server Error");
-        echo $this->loadView()->render('@Leon/internalServerError.index.html.twig');
+        return new HTMLResponse('@Leon/internalServerError.index.html.twig');
     }
 
     public function setAlert($type, $message, $dismissable = true)
@@ -74,12 +76,5 @@ abstract class Controller
             'message'       => $message,
             'dismissable'   => $dismissable
         ];
-    }
-
-    protected function loadView()
-    {
-        $this->view = new View();
-
-        return $this->view;
     }
 }

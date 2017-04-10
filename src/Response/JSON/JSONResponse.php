@@ -4,7 +4,7 @@ namespace Leon\Response\JSON;
 
 use Leon\Response\Response;
 
-abstract class JSON extends Response
+abstract class JSONResponse extends Response
 {
     public function __construct()
     {

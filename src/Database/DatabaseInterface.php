@@ -2,9 +2,11 @@
 
 namespace Leon\Database;
 
+use Leon\Configuration\Database\Database as DatabaseConfiguration;
+
 interface DatabaseInterface
 {
-    public function __construct();
+    public function __construct(DatabaseConfiguration $databaseConfiguration);
 
     public function insertOne(string $tableName, array $entity);
 

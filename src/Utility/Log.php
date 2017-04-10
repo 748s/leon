@@ -1,52 +1,37 @@
 <?php
 
-namespace Leon;
+namespace Leon\Utility;
+
+use Leon\Configuration\Configuration;
+use Leon\Database\Database;
 
 class Log
 {
     protected $db;
-    protected $environment;
-    protected $requestLog;
-    protected $errorLog;
+    protected $configuration;
 
     public function __construct()
     {
-        global $config, $db;
+        global $configuration, $db;
         $this->db = $db;
-        $this->environment = $config->getEnvironment();
-        $this->errorLog = $config->getErrorLog();
-        $this->requestLog = $config->getRequestLog();
-        switch (strtolower($this->environment)) {
-            case 'development':
-                $this->errorReporting = -1;
-                $displayErrors = true;
-            break;
-            case 'staging':
-            case 'production':
-                $this->errorReporting = E_WARNING;
-                $displayErrors = false;
-            break;
+        $this->configuration = $configuration;
+        if ($this->configuration->getErrorLog()) {
+            set_error_handler([$this, 'logError'], $this->configuration->getErrorReporting());
         }
-
-        ini_set('error_reporting', $this->errorReporting);
-        ini_set('display_errors', $displayErrors);
-        if ($this->errorLog) {
-            set_error_handler([$this, 'logError'], $this->errorReporting);
-        }
-        if ($this->requestLog) {
+        if ($this->configuration->getRequestLog()) {
             register_shutdown_function([$this, 'logShutdown']);
         }
     }
 
     public function logError($type, $message, $file, $line)
     {
-        $this->db->insertOne($this->errorLog, [
+        $this->db->insertOne($this->configuration->getErrorLog(), [
             'type'          => $type,
             'message'       => $message,
             'file'          => $file,
             'line'          => $line,
             'uri'           => isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
-            'post'          => 'POST' === $_SERVER['REQUEST_METHOD'] ? 1 : 0,
+            'requestMethod' => $_SERVER['REQUEST_METHOD'],
             'userId'        => isset($_SESSION['userId']) ? $_SESSION['userId'] : 0,
             'ipIddress'     => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null,
             'userAgent'     => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
@@ -54,24 +39,23 @@ class Log
         ]);
 
         // if config->environment == 'development': also print errors to screen
-        if ('development' === $this->environment) {
+        if ('development' === $this->configuration->getEnvironment()) {
             return false;
         }
     }
 
     public function logRequest()
     {
-        global $config;
-        $this->db->insertOne($this->requestLog, [
+        $this->db->insertOne($this->configuration->getRequestLog(), [
             'uri'           => isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : null,
-            'controller'    => $config->getController(),
-            'action'        => $config->getAction(),
-            'post'          => 'POST' === $_SERVER['REQUEST_METHOD'] ? 1 : 0,
+            'controller'    => $this->configuration->getController(),
+            'action'        => $this->configuration->getAction(),
+            'requestMethod' => $_SERVER['REQUEST_METHOD'],
             'userId'        => isset($_SESSION['userId']) ? $_SESSION['userId'] : 0,
             'ipAddress'     => isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null,
             'userAgent'     => isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : null,
             'referer'       => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null,
-            'responseTime'  => microtime(true) - $config->getStartTime(),
+            'responseTime'  => microtime(true) - $this->configuration->getStartTime(),
             'numQueries'    => $this->db->getNumQueries(),
         ]);
     }

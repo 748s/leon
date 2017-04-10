@@ -25,10 +25,10 @@ class Form
 
     public function __construct()
     {
-        global $config;
-        $this->id = str_replace(['\\', 'Controller'], '', $config->getController()) . 'Form';
-        $this->addClass(str_replace(['\\', 'Controller'], '', $config->getController()) . 'Form');
-        $this->action = $config->getQueryString();
+        global $configuration;
+        $this->id = str_replace(['\\', 'Controller'], '', $configuration->getController()) . 'Form';
+        $this->addClass(str_replace(['\\', 'Controller'], '', $configuration->getController()) . 'Form');
+        $this->action = $configuration->getQueryString();
     }
 
     public function setId(string $id)
